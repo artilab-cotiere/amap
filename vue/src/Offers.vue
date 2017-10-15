@@ -11,6 +11,7 @@
         <span>{{product.name}}</span>
         <input v-model="product.name"
           @blur="doneEdit"
+          v-product-focus="product == currentlyEdited"
           @keyup.enter="doneEdit">
       </li>
     </ul>
@@ -46,6 +47,7 @@ export default {
       this.currentlyEdited = product
     },
     doneEdit: function() {
+      console.log("done edit")
       this.currentlyEdited = null
     },
     save: function() {
@@ -56,6 +58,13 @@ export default {
       if (prods === null) { prods = [] }
       else { prods = JSON.parse(prods) }
       return prods
+    }
+  },
+  directives: {
+    'product-focus': function(element, binding) {
+      if (binding) {
+        element.focus();
+      }
     }
   }
 }
