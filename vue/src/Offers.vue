@@ -28,6 +28,15 @@ export default {
       msg: 'Création d\'offres'
     }
   },
+  created() {
+    this.products = this.fetch()
+  },
+  watch: {
+    products: {
+      handler: function() {this.save()},
+      deep: true
+    }
+  },
   methods: {
     addProduct: function() {
       this.products.push({name:this.newProduct})
@@ -38,6 +47,15 @@ export default {
     },
     doneEdit: function() {
       this.currentlyEdited = null
+    },
+    save: function() {
+      localStorage.setItem("products", JSON.stringify(this.products))
+    },
+    fetch: function() {
+      var prods = localStorage.getItem("products")
+      if (prods === null) { prods = [] }
+      else { prods = JSON.parse(prods) }
+      return prods
     }
   }
 }
